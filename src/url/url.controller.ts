@@ -12,7 +12,7 @@ import { URLService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { Response } from 'express';
 
-@Controller('URL')
+@Controller()
 export class URLController {
   constructor(private readonly urlService: URLService) {}
 
@@ -45,7 +45,7 @@ export class URLController {
     @Param('shortenedUrl') shortenedUrl: string,
     @Res() res: Response,
   ) {
-    const originalUrl = await this.urlService.decodeShortUrl(shortenedUrl);
+    const originalUrl = await this.urlService.getOriginalUrl(shortenedUrl);
     return res.status(HttpStatus.OK).json({
       message: 'Original URL fetched successfully',
       data: { originalUrl },

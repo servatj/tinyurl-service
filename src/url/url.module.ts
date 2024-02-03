@@ -9,4 +9,4 @@ import { URL, URLSchema } from './schemas/url.schema';
   controllers: [URLController],
   providers: [URLService],
 })
-export class CatsModule {}
+export class URLModule {}

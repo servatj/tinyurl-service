@@ -1,11 +1,3 @@
-import crypto from 'crypto';
-
-export function generateShortUrl(originalUrl) {
-  const hash = crypto.createHash('md5').update(originalUrl).digest('hex');
-  const encode = base62Encode(hash);
-  return encode ? encode.substring(0, 7) : '';
-}
-
 export function base62Encode(text) {
   const base62chars =
     '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -30,7 +22,3 @@ export function base62Decode(str) {
   }
   return Buffer.from(result.toString(16), 'hex').toString('utf-8');
 }
-
-// const originalUrl = 'https://www.example.com/long-url-path';
-// const shortUrlKey = generateShortUrl(originalUrl);
-// console.log(shortUrlKey);
