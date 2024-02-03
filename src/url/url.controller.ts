@@ -10,26 +10,26 @@ import {
 } from '@nestjs/common';
 import { URLService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
-import e, { Response } from 'express';
+import { Response } from 'express';
 
 @Controller()
 export class URLController {
   constructor(private readonly urlService: URLService) {}
 
   @Post('tinyurl')
-  async createShortUrl(
+  async createShortUzrl(
     @Body() createUrlDto: CreateUrlDto,
     @Res() res: Response,
   ) {
     try {
       const shortenedUrl = await this.urlService.createShortUrl(createUrlDto);
       return res.status(HttpStatus.OK).json({
-        message: 'Short URL created successfully',
+        message: 'success',
         data: { shortenedUrl },
       });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        message: 'Internal server error',
+        message: 'EInternal server error',
         error: error.message,
       });
     }
