@@ -12,11 +12,11 @@ import { URLService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { Response } from 'express';
 
-@Controller()
+@Controller('tinyurl')
 export class URLController {
   constructor(private readonly urlService: URLService) {}
 
-  @Post('tinyurl')
+  @Post()
   async createShortUzrl(
     @Body() createUrlDto: CreateUrlDto,
     @Res() res: Response,
@@ -35,7 +35,7 @@ export class URLController {
     }
   }
 
-  @Put('tinyurl')
+  @Put()
   async updateShortUrl(
     @Body() createUrlDto: CreateUrlDto,
     @Res() res: Response,
@@ -47,11 +47,12 @@ export class URLController {
     });
   }
 
-  @Get('tinyurl/decode/:shortenedUrl')
+  @Get(':shortenedUrl')
   async decodeShortUrl(
     @Param('shortenedUrl') shortenedUrl: string,
     @Res() res: Response,
   ) {
+    console.log('originalUrl', shortenedUrl);
     const originalUrl = await this.urlService.getOriginalUrl(shortenedUrl);
     return res.status(HttpStatus.OK).json({
       message: 'Original URL fetched successfully',

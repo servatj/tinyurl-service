@@ -21,7 +21,9 @@ export class URLService {
     return encode ? encode.substring(0, 7) : '';
   }
 
-  async createShortUrl(createUrlDto: { originalUrl: string }): Promise<Response> {
+  async createShortUrl(createUrlDto: {
+    originalUrl: string;
+  }): Promise<Response> {
     console.log('createUrlDto', createUrlDto);
     const isExist = await this.urlModel
       .findOne({ originalUrl: createUrlDto.originalUrl })
@@ -39,6 +41,8 @@ export class URLService {
     }
 
     const shortenedUrl = this.generateShortUrl(createUrlDto.originalUrl);
+    const domain = process.env.DOMAIN || 'http://localhost:3000';
+    const fullShortenedUrl = `${domain}/${shortenedUrl}`;
     const newUrl = new this.urlModel({
       originalUrl: createUrlDto.originalUrl,
       shortenedUrl,
@@ -46,7 +50,7 @@ export class URLService {
     await newUrl.save();
     return {
       message: 'Short URL created successfully',
-      data: { shortenedUrl },
+      data: { shortenedUrl: fullShortenedUrl },
     };
   }
 
