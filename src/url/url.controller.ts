@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Put,
   Param,
+  HttpException,
 } from '@nestjs/common';
 import { URLService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
@@ -35,7 +36,7 @@ export class URLController {
     description: 'Internal server error',
   })
   @ApiBody({ type: CreateUrlDto })
-  async createShortUzrl(
+  async createShortUrl(
     @Body() createUrlDto: CreateUrlDto,
     @Res() res: Response,
   ) {
@@ -46,10 +47,10 @@ export class URLController {
         data: { shortenedUrl },
       });
     } catch (error) {
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        message: 'EInternal server error',
-        error: error.message,
-      });
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
