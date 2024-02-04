@@ -8,17 +8,19 @@ services:
     depends_on:
       - mongodb
       - postgresql
+    container_name: tinyurl
     ports:
       - "3020:3020"
     environment:
       - MONGO_PASSWORD=tinyurl
       - MONGO_INITDB_DATABASE=tinyurl
-      - POSTGRES_PASSWORD=tinyurl
-      - POSTGRES_DB=tinyurl
-    # command: ["./app/dbSetup.sh"] 
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    # command: npm run setup:pg && npm run start
 
   mongodb:
     image: mongo
+    container_name: mongo-tinyurl
     restart: always
     ports:
       - 27017:27017
@@ -29,8 +31,11 @@ services:
 
   postgresql:
     image: postgres
+    container_name: postgres-tinyurl
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_DB=tinyurl
-      - POSTGRES_USER=tinyurl
-      - POSTGRES_PASSWORD=tinyurl
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

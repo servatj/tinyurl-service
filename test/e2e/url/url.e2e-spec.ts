@@ -26,6 +26,12 @@ describe('URLModule (e2e)', () => {
       });
   });
 
+  it.skip('/tinyurl (GET) - URL', () => {
+    return request(app.getHttpServer())
+      .get('/tinyurl/abc123')
+      .expect(HttpStatus.FOUND);
+  });
+
   afterAll(async () => {
     await app.close();
   });

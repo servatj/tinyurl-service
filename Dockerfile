@@ -12,12 +12,12 @@ RUN npm install
 COPY . .
 
 # Expose the port on which the Nest.js application will run
-EXPOSE 3000
+EXPOSE 3020
 
 # Build the Nest.js application
 RUN npm run build
 
-COPY dbSetup.sh ./dist
+COPY .env ./dist
 
 # Start the Nest.js application
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main.js"]

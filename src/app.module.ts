@@ -13,7 +13,7 @@ import { StatsModule } from './stats/stats.module';
       envFilePath: '.env',
     }),
     URLModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/tinyurl'),
+    MongooseModule.forRoot(process.env.URL_MONGO),
     DbModule,
   ],
   controllers: [],

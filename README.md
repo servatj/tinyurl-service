@@ -24,7 +24,14 @@ This service is a URL shortening API built with NestJS. It allows users to creat
    git clone https://github.com/your-username/tinyurl-service.git
    npm install
 
-2. Run the application
+
+2. Copy .env.example to .env 
+  
+```
+cp .env.example .env
+```
+
+3. Run the application
 
 Running the Application
 To start the application in development mode, run:
@@ -43,18 +50,31 @@ npm run build
 npm run start:prod
 ```
 
+## Run with docker-compose 
+
+1. Copy .env.example to .env 
+  
+```
+cp .env.docker-compose .env
+```
+
+```
+docker-compose up -d 
+```
 
 ## Usage
 
-To create a short URL, make a POST request to /shorten with the original URL in the request body:
+Once the service is started you can check swagger to see how the endpoints works
 
+visit
 ```
-{
-  "originalUrl": "https://www.example.com/very/long/url"
-}
-````
+http://localhost:3020/api-docs#/
+```
 
-To view statistics for a short URL, make a GET request to /stats/{shortUrlId}.
+<img width="748" alt="image" src="https://github.com/servatj/rhx-frontend/assets/3521485/7e83b26b-cf12-4778-81f4-4e24bfaa5746">
+
+
+## To view statistics for a short URL, make a GET request to /stats/{shortUrlId}
 
 ## API Documentation
 For full API documentation, visit /api on the running application to access the Swagger UI.
