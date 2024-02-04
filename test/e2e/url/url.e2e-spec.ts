@@ -1,27 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UrlService } from './url.service';
+import { INestApplication, HttpStatus } from '@nestjs/common';
+import * as request from 'supertest';
+import { AppModule } from '../../../src/app.module';
 
-describe('UrlService', () => {
-  let service: UrlService;
+describe('URLModule (e2e)', () => {
+  let app: INestApplication;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UrlService],
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
 
-    service = module.get<UrlService>(UrlService);
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('/tinyurl (POST) - create short URL', () => {
+    return request(app.getHttpServer())
+      .post('/tinyurl')
+      .send({ originalUrl: 'https://example.com' })
+      .expect(HttpStatus.OK)
+      .expect((res) => {
+        expect(res.body.data).toHaveProperty('shortenedUrl');
+        expect(res.body.message).toEqual('success');
+      });
   });
 
-  it('should generate a short URL key', () => {
-    const originalUrl = 'https://www.example.com/long-url-path';
-    const shortUrlKey = service.generateShortUrl(originalUrl);
-
-    expect(shortUrlKey).toBeDefined();
-    expect(shortUrlKey).toHaveLength(7);
-    expect(shortUrlKey).toMatch(/^[0-9A-Za-z]{7}$/);
+  afterAll(async () => {
+    await app.close();
   });
 });

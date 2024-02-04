@@ -11,12 +11,30 @@ import {
 import { URLService } from './url.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { Response } from 'express';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('url')
 @Controller('tinyurl')
 export class URLController {
   constructor(private readonly urlService: URLService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a short URL' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Short URL created successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  @ApiBody({ type: CreateUrlDto })
   async createShortUzrl(
     @Body() createUrlDto: CreateUrlDto,
     @Res() res: Response,
@@ -36,6 +54,12 @@ export class URLController {
   }
 
   @Put()
+  @ApiOperation({ summary: 'Update an existing short URL' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Short URL updated successfully',
+  })
+  @ApiBody({ type: CreateUrlDto })
   async updateShortUrl(
     @Body() createUrlDto: CreateUrlDto,
     @Res() res: Response,
@@ -48,6 +72,17 @@ export class URLController {
   }
 
   @Get(':shortenedUrl')
+  @ApiParam({
+    name: 'shortenedUrl',
+    required: true,
+    example: 'nwCyj6V4',
+    description: 'Shortened URL',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Original URL fetched successfully',
+  })
+  @ApiResponse({ status: 404, description: 'URL not found' })
   async decodeShortUrl(
     @Param('shortenedUrl') shortenedUrl: string,
     @Res() res: Response,

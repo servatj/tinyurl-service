@@ -3,8 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { URLController } from './url.controller';
 import { URLService } from './url.service';
 import { URL, URLSchema } from './schemas/url.schema';
-import { StatsService } from 'src/stats/stats.service';
-import { DbModule } from 'src/db/db.module';
+import { StatsService } from '../stats/stats.service';
+import { DbModule } from '../db/db.module';
 
 @Module({
   imports: [

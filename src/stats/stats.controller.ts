@@ -2,7 +2,9 @@ import { Controller, Post, Get, Body, Res, HttpStatus } from '@nestjs/common';
 import { StatsService } from './stats.service';
 import { CreateStatsDto } from './dto/create-stats.dto';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('stats')
 @Controller('stats')
 export class StatsController {
   constructor(private readonly statsService: StatsService) {}

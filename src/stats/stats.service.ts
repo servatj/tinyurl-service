@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { PG_CONNECTION } from 'src/constants/constants';
+import { PG_CONNECTION } from '../constants/constants';
 import { CreateStatsDto } from './dto/create-stats.dto';
 
 @Injectable()
