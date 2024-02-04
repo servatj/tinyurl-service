@@ -23,10 +23,8 @@ This service is a URL shortening API built with NestJS. It allows users to creat
    ```sh
    git clone https://github.com/your-username/tinyurl-service.git
    npm install
-  ```
 
-2 . Run the application
-
+2. Run the application
 
 Running the Application
 To start the application in development mode, run:

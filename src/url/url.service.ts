@@ -4,7 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { URL } from './schemas/url.schema';
 import { base62Encode } from '../utils/utils';
-// import httpStatus from 'http-status';
+import { StatsService } from '../stats/stats.service';
+import { CreateStatsDto } from '../stats/dto/create-stats.dto';
 
 interface Response {
   message: string;
@@ -13,7 +14,10 @@ interface Response {
 
 @Injectable()
 export class URLService {
-  constructor(@InjectModel(URL.name) private urlModel: Model<URL>) {}
+  constructor(
+    @InjectModel(URL.name) private urlModel: Model<URL>,
+    private statsService: StatsService,
+  ) {}
 
   generateShortUrl(originalUrl) {
     const hash = crypto.createHash('md5').update(originalUrl).digest('hex');
@@ -30,10 +34,6 @@ export class URLService {
       .exec();
 
     if (isExist) {
-      // throw new HttpException({
-      //   status: HttpStatus.BAD_REQUEST,
-      //   error: 'Original URL already exists',
-      // }, HttpStatus.BAD_REQUEST);
       return {
         message: 'Original URL already exists',
         data: { shortenedUrl: isExist.shortenedUrl },
@@ -54,9 +54,27 @@ export class URLService {
     };
   }
 
-  async getOriginalUrl(shortenedUrl: string): Promise<string> {
+  async getOriginalUrl(shortenedUrl: string): Promise<Response> {
     const url = await this.urlModel.findOne({ shortenedUrl }).exec();
-    return url.originalUrl;
+
+    if (!url) {
+      return {
+        message: 'Short URL not found',
+        data: null,
+      };
+    }
+
+    const createStatsDto = new CreateStatsDto();
+    createStatsDto.url = url.originalUrl;
+    createStatsDto.shortUrl = shortenedUrl;
+    createStatsDto.userAgent = 'userAgent';
+    createStatsDto.ipAddress = 'ipAddress';
+
+    await this.statsService.recordUrlStat(createStatsDto);
+    return {
+      message: 'Original URL found',
+      data: url,
+    };
   }
 
   async updateShortUrl(createUrlDto: { originalUrl: string }): Promise<string> {
