@@ -17,5 +17,7 @@ EXPOSE 3000
 # Build the Nest.js application
 RUN npm run build
 
+COPY dbSetup.sh ./dist
+
 # Start the Nest.js application
 CMD ["node", "dist/main"]

@@ -9,12 +9,13 @@ services:
       - mongodb
       - postgresql
     ports:
-      - "8080:8080"
+      - "3020:3020"
     environment:
       - MONGO_PASSWORD=tinyurl
       - MONGO_INITDB_DATABASE=tinyurl
       - POSTGRES_PASSWORD=tinyurl
       - POSTGRES_DB=tinyurl
+    # command: ["./app/dbSetup.sh"] 
 
   mongodb:
     image: mongo
