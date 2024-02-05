@@ -15,7 +15,7 @@ export class StatsService {
 
   async getUrlStatsTop10(url: string) {
     const res = await this.conn.query(
-      'SELECT count(*) as count, url FROM URLStats WHERE url = $1 GROUP BY url ORDER BY count DESC LIMIT 10',
+      'SELECT count(*) as count, short_url FROM URLStats  GROUP BY short_url ORDER BY count DESC LIMIT 10',
       [url],
     );
     return res.rows;
