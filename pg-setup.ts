@@ -20,11 +20,12 @@ const client = new Client({
 const createTableText = `
   CREATE TABLE IF NOT EXISTS urlstats (
     id SERIAL PRIMARY KEY,
-    shortened_url VARCHAR(255) NOT NULL UNIQUE,
+    short_url VARCHAR(255) NOT NULL,
     original_url VARCHAR(255) NOT NULL,
-    user_id VARCHAR(255),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    ip_address VARCHAR(255) NOT NULL,
+    user_agent VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `;
 
