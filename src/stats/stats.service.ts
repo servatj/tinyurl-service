@@ -7,9 +7,14 @@ export class StatsService {
   constructor(@Inject(PG_CONNECTION) private conn: any) {}
 
   async getUrlStats(url: string) {
-    const res = await this.conn.query('SELECT * FROM URLStats WHERE url = $1', [
-      url,
-    ]);
+    const res = await this.conn.query(
+      `SELECT 
+         min(created_at) as first_usage,
+         max(created_at) as last_usage, 
+         count(*) as score, 
+        FROM URLStats WHERE short_url = $1`,
+      [url],
+    );
     return res.rows;
   }
 
