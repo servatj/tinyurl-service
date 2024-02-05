@@ -11,7 +11,7 @@ export class StatsService {
       `SELECT 
          min(created_at) as first_usage,
          max(created_at) as last_usage, 
-         count(*) as score, 
+         count(*) as score
         FROM URLStats WHERE short_url = $1`,
       [url],
     );
