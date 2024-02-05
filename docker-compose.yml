@@ -16,7 +16,7 @@ services:
       - MONGO_INITDB_DATABASE=tinyurl
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
-    # command: npm run setup:pg && npm run start
+    command: npm run setup:pg && npm run start
 
   mongodb:
     image: mongo
