@@ -14,7 +14,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "seed": "ts-node src/url/schemas/seed/seed.ts",
-    "setup:pg": "ts-node pg-setup.ts && node dist/main",
+    "setup:pg": "ts-node pg-setup.ts && npm run start",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

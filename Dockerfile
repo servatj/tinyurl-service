@@ -20,4 +20,4 @@ RUN npm run build
 COPY .env ./dist
 
 # Start the Nest.js application
-CMD ["node", "dist/src/main.js"]
+CMD ["node", "dist/main.js"]
